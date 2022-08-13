@@ -1,11 +1,11 @@
 <template>
   <div class="itemMusicTop">
-    <img :src="props.playlist.coverImgUrl" alt="" class="bgImg" />
+    <img :src="playlist.coverImgUrl" alt="" class="bgImg" />
     <span class="playCount"
       ><svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-play"></use>
       </svg>
-      {{ changeCount(props.playlist.playCount) }}</span
+      {{ changeCount(playlist.playCount) }}</span
     >
 
     <div class="itemLeft">
@@ -24,22 +24,24 @@
     </div>
   </div>
   <div class="banner-center">
-    <div class="imgLeft"><img :src="props.playlist.coverImgUrl" alt="" /></div>
+    <div class="imgLeft"><img :src="playlist.coverImgUrl" alt="" /></div>
     <div class="contentRight">
       <div class="title">
-        {{ props.playlist.description }}
+        {{ playlist.description }}
       </div>
       <div class="creator">
         <div class="user">
-          <img :src="props.playlist.avatarUrl" alt="" />
-          <span
-            >{{ props.playlist.nickname }}
+          <!-- creator.avatarUrl -->
+          <img :src="playlist.creator.avatarUrl" alt="" />
+          <span>
+            <!-- props.playlist.nickname -->
+            {{ playlist.creator.nickname }}
             <svg class="icon xiangyoujiantou" aria-hidden="true">
               <use xlink:href="#icon-xiangyoujiantou"></use></svg
           ></span>
         </div>
         <div class="description">
-          {{ props.playlist.signature }}
+          {{ playlist.creator.signature }}
         </div>
       </div>
     </div>
@@ -49,13 +51,13 @@
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-xiaoxi"></use>
       </svg>
-      <span>{{ props.playlist.commentCount }}</span>
+      <span>{{ playlist.commentCount }}</span>
     </div>
     <div class="top-btn btn-share">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-fenxiang"></use>
       </svg>
-      <span>{{ props.playlist.shareCount }}</span>
+      <span>{{ playlist.shareCount }}</span>
     </div>
     <div class="top-btn btn-download">
       <svg class="icon" aria-hidden="true">
@@ -77,8 +79,17 @@ import { defineProps, onMounted } from 'vue'
 import { useStore } from 'vuex'
 const store = useStore()
 const props = defineProps(['playlist'])
+// 本来是通过props来获取的，但是因为每次播放都会更新，所以改为通过store来获取
+if ((props.playlist.creator = '')) {
+  props.playlist.creator = ''
+  props.playlist.creator = JSON.parse(
+    sessionStorage.getItem('itemDetail').playlist
+  ).creator
+}
+console.log(props.playlist)
 const logPlayList = () => {
-  console.log(props.playlist)
+  // console.log(props.playlist)
+  // console.log(props.playlist.creator)
 }
 const changeCount = (num) => {
   if (num >= 100000000) {

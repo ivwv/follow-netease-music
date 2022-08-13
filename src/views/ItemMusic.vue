@@ -14,7 +14,6 @@ import ItemMusicList from '@/components/item/ItemMusicList.vue'
 const $http = inject('$http')
 const store = useStore()
 const state = reactive({
-  beforePlaylist: {},
   playlist: {},
 })
 onMounted(async () => {
@@ -24,19 +23,23 @@ onMounted(async () => {
       id,
     },
   })
+  state.playlist = res.playlist
+  // console.log()
+  // 防止页面刷新数据丢失，将数据保存在sessionStorage中
+  sessionStorage.setItem('itemDetail', JSON.stringify(state))
 
-  state.playlist = {
-    id: res.playlist.id,
-    coverImgUrl: res.playlist.coverImgUrl,
-    name: res.playlist.name,
-    playCount: res.playlist.playCount,
-    description: res.playlist.description,
-    shareCount: res.playlist.shareCount,
-    commentCount: res.playlist.commentCount,
-    avatarUrl: res.playlist.creator.avatarUrl,
-    nickname: res.playlist.creator.nickname,
-    signature: res.playlist.creator.signature,
-  }
+  // state.playlist = {
+  //   id: res.playlist.id,
+  //   coverImgUrl: res.playlist.coverImgUrl,
+  //   name: res.playlist.name,
+  //   playCount: res.playlist.playCount,
+  //   description: res.playlist.description,
+  //   shareCount: res.playlist.shareCount,
+  //   commentCount: res.playlist.commentCount,
+  //   avatarUrl: res.playlist.creator.avatarUrl,
+  //   nickname: res.playlist.creator.nickname,
+  //   signature: res.playlist.creator.signature,
+  // }
   // await store.dispatch('changePlayList', res.playlist)
   // console.log(res)
   // state.playlist = res.playlist

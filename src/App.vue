@@ -1,6 +1,10 @@
 <template>
   <router-view />
+  <FooterMusic></FooterMusic>
 </template>
+<script setup>
+import FooterMusic from '@/components/item/FooterMusi.vue'
+</script>
 
 <style lang="less">
 * {
